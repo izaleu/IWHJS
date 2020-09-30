@@ -1,0 +1,11 @@
+{
+  "name": "iwhjs",
+  "version": "0.0.1",
+  "description": "A simple framework for text-based adventure games.",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "author": "dread",
+  "license": "ISC"
+}
