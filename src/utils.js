@@ -1,6 +1,10 @@
 const readline = require('readline');
 const { statementColor, questionColor, printColor, ResetColor } = require('./consts');
 
+// TODO: make more MUD-like
+// TODO: print list of things
+// TODO: select/choose from list
+
 // TODO: Wrap rl in singleton 
 // TODO: Break out into input utils?
 // TODO: Make commands?
