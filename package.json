@@ -7,5 +7,8 @@
     "start": "node index.js"
   },
   "author": "dread",
-  "license": "ISC"
+  "license": "ISC",
+  "engines": {
+    "node": ">=10.16.1"
+  }
 }
