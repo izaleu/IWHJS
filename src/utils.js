@@ -39,7 +39,7 @@ exports.s = (q) => {
         input: process.stdin,
         output: process.stdout
     });
-    rl.write(q+"\n");
+    rl.write(q+" (Press any key to continue.)\n");
 
     return new Promise(async (resolve) => {
         rl.input.once("keypress", ()=> {

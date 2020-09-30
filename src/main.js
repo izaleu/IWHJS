@@ -12,7 +12,7 @@ module.exports = async function main() {
     // TODO: load/save/resume
 
     // Game Intro
-    await s('You\'re in a hotel room. The walls are an ugly shade of green. Press any key to continue.');
+    await s('You\'re in a hotel room. The walls are an ugly shade of green.');
 
     // Game Loop
     while (gm.getCurrentState().running === true) {
