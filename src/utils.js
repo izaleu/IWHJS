@@ -33,6 +33,7 @@ exports.q = (q) => {
         rl.on('line', (userInput) => {
             response = userInput;
             rl.close();
+            this.n()
             resolve(response);
         });
     });
