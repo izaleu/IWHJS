@@ -1,0 +1,47 @@
+{
+    "car_keys": {
+        "desc": "",
+        "name": "Car Keys",
+        "verbs": [
+            "open",
+            "grab",
+            "drop"
+        ]
+    },
+    "hotel_keys": {
+        "desc": "",
+        "name": "Hotel Key",
+        "verbs": [
+            "open",
+            "grab",
+            "drop"
+        ]
+    },
+    "cellphone": {
+        "desc": "",
+        "name": "Cellphone",
+        "verbs": [
+            "open",
+            "grab",
+            "drop"
+        ]
+    },
+    "phone_charger": {
+        "desc": "",
+        "name": "Phone Charger",
+        "verbs": [
+            "open",
+            "grab",
+            "drop"
+        ]
+    },
+    "wallet": {
+        "desc": "",
+        "name": "Wallet",
+        "verbs": [
+            "open",
+            "grab",
+            "drop"
+        ]
+    }
+}

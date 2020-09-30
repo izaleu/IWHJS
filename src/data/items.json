@@ -1,0 +1,11 @@
+{
+    "overnight_bag": {
+        "desc": "Your old overnight bag. You and it have seen better days.",
+        "name": "Overnight Bag",
+        "verbs": [
+            "open",
+            "grab",
+            "drop"
+        ]
+    }
+}

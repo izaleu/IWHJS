@@ -1,0 +1,16 @@
+{
+    "id": "0001",
+    "plane": 0,
+    "name": "Room 6",
+    "desc_id": "0001",
+    "keys": [
+        "car_keys",
+        "hotel_keys",
+        "cellphone",
+        "phone_charger",
+        "wallet"
+    ],
+    "items:" :[
+        "overnight_bag"
+    ]
+}
