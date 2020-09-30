@@ -1,9 +1,13 @@
 # IWHJS
-A simple text adventure framework in NodeJS
+A simple text adventure framework in NodeJS.
 
 ## Instructions
 
-Requires NodeJS >= 10.0.0
+IWHJS requires:
+
+* [NodeJS](https://nodejs.org/en/download/) >= v10.0.0 
+* [npm](https://docs.npmjs.com/about-npm/) (installs automatically with NodeJS)
+* An terminal
 
 ### To Run Locally
 
