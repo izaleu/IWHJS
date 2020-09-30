@@ -33,7 +33,7 @@ module.exports = async function main() {
 
         await q('What do you do?').then(async (input) => {
             //TODO: Accept aliases for first character (or characters, if dupes) for commands
-            const result = cmds.find(cmd => cmd.verb === input);
+            const result = cmds.find(cmd => cmd.verb.toLowerCase() === input);
             if (result) {
                 if (result.isAsync) {
                     await cm.dispatchAsync(result)
