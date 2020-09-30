@@ -17,6 +17,8 @@ module.exports = async function main() {
 
     // TODO: load/save/resume
 
+    await s("Hi there! Welcome to the alpha build of I Wasn/'t Here! Quit any time with CTRL-C.")
+
     // Game Intro
     await s(getRoom(gm.getCurrentState().playerPos).desc);
 
