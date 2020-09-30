@@ -29,7 +29,7 @@ module.exports = async function main() {
         // List available commands
         const cmds = cm.getAvailableCommands();
         p('Things you can do here:');
-        cmds.forEach(c => p(c.verb));
+        cmds.forEach(c => p("- ",c.verb));
         n();
 
         await q('What do you do?').then(async (input) => {
@@ -41,8 +41,10 @@ module.exports = async function main() {
                 } else {
                     cm.dispatch(result);
                 }
+                n();
             } else {
-                p("Sorry, I didn't understand that.")
+                if(input !=='') n();
+                p("Sorry, I didn't understand that.");
                 n();
             }
         });

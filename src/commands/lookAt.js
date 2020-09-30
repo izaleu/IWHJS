@@ -1,5 +1,5 @@
 const Command = require('../command');
-const { q, p,s } = require('../utils');
+const { q, p,s, n } = require('../utils');
 const {
     getRoom
 } = require('../dataManager');
@@ -18,15 +18,18 @@ module.exports = class lookAt extends Command {
     }
 
     static async execute(currentState, optionalParams) {
+        n();
         p("Here's what you see:");
         const {items} = getRoom(currentState.playerPos)
         items.forEach(item => {
-            p(item.name);
+            p("* ", item.name);
         });
+        n();
         p("What do you want to look at?");
         return q("Select an item").then(async input => {
            const result = items.find(item => item.name.toLowerCase() === input);
            if(result) {
+               n();
                p("You look at the", result.name+":");
                await s(result.desc);
            } else {
