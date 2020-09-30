@@ -1,5 +1,5 @@
 const Command = require('../command');
-const { q, p } = require('../utils');
+const { q, p, n } = require('../utils');
 
 module.exports = class setPlayerName extends Command {
     static get verb() {
@@ -21,7 +21,8 @@ module.exports = class setPlayerName extends Command {
                 return currentState;
             } else {
                 //Note: be presumptive, this is the reducer
-                p("Your name is now", "\""+input+"\",", "isn't that awesome?")
+                p("Your name is now", "\""+input+"\",", "isn't that awesome?");
+                n();
                 return Object.assign({}, currentState, { name: input });
             }
         });
