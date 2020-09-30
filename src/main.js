@@ -1,4 +1,4 @@
-const { q, p, s } = require('./utils');
+const { q, p, s, n } = require('./utils');
 const GameManager = require('./gameManager');
 const CommandManager = require('./commandManager');
 
@@ -16,12 +16,14 @@ module.exports = async function main() {
 
     // Game Loop
     while (gm.getCurrentState().running === true) {
+
+        // List available commands
         const cmds = cm.getAvailableCommands();
-        p('Things you can do here:')
-        cmds.forEach(c => console.log(c.verb))
+        p('Things you can do here:');
+        cmds.forEach(c => console.log(c.verb));
+        n();
 
         await q('What do you do?').then(async (input)=> {
-           
             //TODO: Accept aliases for first character (or characters, if dupes) for commands
             const result = cmds.find(cmd => cmd.verb === input);
             if(result) { 
@@ -32,6 +34,7 @@ module.exports = async function main() {
                 }
             } else {
                 p("Sorry, I didn't understand that.")
+                n();
             }
         });
     }

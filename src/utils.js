@@ -1,5 +1,5 @@
-const { R_OK } = require('constants');
 const readline = require('readline');
+const { statementColor, questionColor, printColor, ResetColor } = require('./consts');
 
 // TODO: Wrap rl in singleton 
 // TODO: Break out into input utils?
@@ -10,6 +10,10 @@ const readline = require('readline');
 // example:
 // q('what?').then(answer => console.log('I said:', answer));
 
+function colorize(color, ...args) {
+    return color + args + ResetColor;
+}
+
 exports.q = (q) => {
     const rl = readline.createInterface({
         input: process.stdin,
@@ -18,7 +22,7 @@ exports.q = (q) => {
 
     let response;
 
-    rl.setPrompt(q + '\n');
+    rl.setPrompt(colorize(questionColor, q + '\n'));
     rl.prompt();
 
     return new Promise((resolve) => {
@@ -39,10 +43,10 @@ exports.s = (q) => {
         input: process.stdin,
         output: process.stdout
     });
-    rl.write(q+" (Press any key to continue.)\n");
+    rl.write(colorize(statementColor, q + " (Press any key to continue.)\n"));
 
     return new Promise(async (resolve) => {
-        rl.input.once("keypress", ()=> {
+        rl.input.once("keypress", () => {
             var len = rl.line.length;
             readline.moveCursor(rl.output, -len, 0);
             readline.clearLine(rl.output, 1);
@@ -55,14 +59,27 @@ exports.s = (q) => {
 // Print
 // Example:
 // p('Some text!'+foo); >>>> "Some Text! bar"
+// TODO: override color?
 exports.p = (...args) => {
     const rl = readline.createInterface({
         input: process.stdin,
         output: process.stdout
     });
     args.forEach(arg => {
-        rl.write(arg+" ")
+        rl.write(colorize(printColor, arg + ' '));
     })
     rl.write('\n')
     rl.close();
 }
+
+// Prints a newline
+exports.n = () => {
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
+    rl.write('\n')
+    rl.close();
+}
+
+
