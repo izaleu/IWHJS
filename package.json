@@ -3,8 +3,10 @@
   "version": "0.0.1",
   "description": "A simple framework for text-based adventure games.",
   "main": "index.js",
+  "bin": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "build": "pkg ./ --targets=node10-win"
   },
   "author": "dread",
   "license": "ISC",
