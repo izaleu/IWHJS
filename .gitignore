@@ -105,3 +105,6 @@ dist
 
 # executables
 *.exe
+
+# build folder
+build/

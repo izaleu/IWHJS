@@ -24,11 +24,11 @@ module.exports = class lookAt extends Command {
             p(item.name);
         });
         p("What do you want to look at?");
-        return q("Select an item").then(input => {
+        return q("Select an item").then(async input => {
            const result = items.find(item => item.name === input);
            if(result) {
                p("You look at the", result.name+":");
-               s(result.desc);
+               await s(result.desc);
            } else {
                p("Sorry, I don't know what that is.");
            }
