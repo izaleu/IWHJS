@@ -12,5 +12,8 @@
   "license": "ISC",
   "engines": {
     "node": ">=10.16.1"
+  },
+  "devDependencies": {
+    "pkg": "^4.4.9"
   }
 }
