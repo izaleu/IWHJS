@@ -22,9 +22,13 @@ IWHJS uses [pkg](https://github.com/vercel/pkg) to build standalone executables 
 In the root directory, run the following npm command to build a Windows 10 compatible executable:
 
 `npm install`
+
 `npm run build`
 
 The output will be in `./build`
 
 ## Class Diagram v0.0.1
+
+This diagram is aspirational and does not reflect the current state of the code.
+
 ![UML Diagram](./docs/v0.0.1.png)
