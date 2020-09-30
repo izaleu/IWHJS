@@ -3,7 +3,7 @@ module.exports = class Entity {
         this.id = id;
         this.components = components;
     }
-    getID() {
+    get id() {
         return this.id;
     }
     getComponent (componentName) {

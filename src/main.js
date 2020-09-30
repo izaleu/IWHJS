@@ -2,7 +2,7 @@ const { q, p } = require('./utils');
 const GameManager = require('./gameManager');
 const CommandManager = require('./commandManager');
 
-async function main() {
+module.exports = async function main() {
     // Initialization
     let gm = new GameManager();
     let cm = new CommandManager(gm);
@@ -49,6 +49,3 @@ async function main() {
         }
     }
 }
-
-// TODO: Export main to another file and run it there
-main();
