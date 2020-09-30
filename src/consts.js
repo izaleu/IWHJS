@@ -14,7 +14,7 @@ module.exports = colors = {
         Magenta: "\x1b[35m",
         Cyan: "\x1b[36m",
         White: "\x1b[37m",
-        Crimson: "\x1b[38m" //القرمزي
+        Crimson: "\x1b[38m"
     },
     bg: {
         Black: "\x1b[40m",
@@ -31,7 +31,7 @@ module.exports = colors = {
 
 module.exports = {
     ResetColor: "\x1b[0m",
-    statementColor: colors.fg.Yellow,
+    statementColor: colors.Bright,
     questionColor: colors.fg.Magenta,
-    printColor: colors.fg.Cyan
+    printColor: "\x1b[0m"
 };
