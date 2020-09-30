@@ -1,6 +1,12 @@
 const { q, p, s, n } = require('./utils');
 const GameManager = require('./gameManager');
 const CommandManager = require('./commandManager');
+const { 
+    getString,
+    getItem,
+    getKey,
+    getRoom 
+} = require('./dataManager');
 
 module.exports = async function main() {
     // Initialization
@@ -12,7 +18,7 @@ module.exports = async function main() {
     // TODO: load/save/resume
 
     // Game Intro
-    await s('You\'re in a hotel room. The walls are an ugly shade of green.');
+    await s(getRoom(gm.getCurrentState().playerPos).desc);
 
     // Game Loop
     while (gm.getCurrentState().running === true) {
@@ -23,11 +29,11 @@ module.exports = async function main() {
         cmds.forEach(c => console.log(c.verb));
         n();
 
-        await q('What do you do?').then(async (input)=> {
+        await q('What do you do?').then(async (input) => {
             //TODO: Accept aliases for first character (or characters, if dupes) for commands
             const result = cmds.find(cmd => cmd.verb === input);
-            if(result) { 
-                if(result.isAsync) {
+            if (result) {
+                if (result.isAsync) {
                     await cm.dispatchAsync(result)
                 } else {
                     cm.dispatch(result);

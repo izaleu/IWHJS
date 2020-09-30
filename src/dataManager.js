@@ -21,7 +21,10 @@ function getRoom (id) {
 function hydrateRoom (room) {
     return {
         ...room,
-        desc: getString(room.desc_id)
+        desc: getString(room.desc_id),
+        items: room.items.map(item => {
+            return getItem(item);
+        })
     }
 }
 

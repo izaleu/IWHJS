@@ -4,7 +4,7 @@ module.exports = class GameManager {
             running: true,
             settings: {},
             playerInventory: {},
-            playerPos: [0,0]
+            playerPos: "000"
         } // TODO: replace with GameState class
         this.prevState = null;
     }
