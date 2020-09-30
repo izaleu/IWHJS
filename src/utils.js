@@ -33,7 +33,7 @@ exports.q = (q) => {
         rl.on('line', (userInput) => {
             response = userInput;
             rl.close();
-            this.n()
+            if(!userInput.endsWith('')) this.n();
             resolve(response);
         });
     });
@@ -51,10 +51,11 @@ exports.s = (q) => {
     rl.write(colorize(statementColor, q + " (Press any key to continue.)\n"));
 
     return new Promise(async (resolve) => {
-        rl.input.once("keypress", () => {
+        rl.input.once("keypress", (c,key) => {
             var len = rl.line.length;
             readline.moveCursor(rl.output, -len, 0);
             readline.clearLine(rl.output, 1);
+            if(key.name !== 'return') this.n();
             rl.close();
             resolve('quit');
         });
