@@ -17,7 +17,8 @@ module.exports = async function main() {
 
     // TODO: load/save/resume
 
-    await s("Hi there! Welcome to the alpha build of I Wasn/'t Here! Quit any time with CTRL-C.")
+    await s("Hi there! Welcome to the alpha build of I Wasn't Here! Quit any time with CTRL-C. \
+    \n You must use complete words, but they can be case-insensitive.")
 
     // Game Intro
     await s(getRoom(gm.getCurrentState().playerPos).desc);
