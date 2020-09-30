@@ -28,7 +28,7 @@ module.exports = async function main() {
         // List available commands
         const cmds = cm.getAvailableCommands();
         p('Things you can do here:');
-        cmds.forEach(c => console.log(c.verb));
+        cmds.forEach(c => p(c.verb));
         n();
 
         await q('What do you do?').then(async (input) => {
