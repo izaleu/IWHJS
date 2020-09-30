@@ -17,21 +17,15 @@ module.exports = async function main() {
 
     // TODO: load/save/resume
 
-    await s("Hi there! Welcome to the alpha build of I Wasn't Here! Quit any time with CTRL-C. \
-    \n You must use complete words, but they can be case-insensitive.")
+    await s("Hi there! Welcome to the alpha build of I Wasn't Here! Type 'help' for a list of commands. \
+    \n Note: you must match complete words, but they can be case-insensitive.")
 
     // Game Intro
     await s(getRoom(gm.getCurrentState().playerPos).desc);
 
     // Game Loop
     while (gm.getCurrentState().running === true) {
-
-        // List available commands
         const cmds = cm.getAvailableCommands();
-        p('Things you can do here:');
-        cmds.forEach(c => p("- ",c.verb));
-        n();
-
         await q('What do you do?').then(async (input) => {
             //TODO: Accept aliases for first character (or characters, if dupes) for commands
             const result = cmds.find(cmd => cmd.verb.toLowerCase() === input);

@@ -1,4 +1,5 @@
 exports.commands = [
+    require('./help'),
     require('./lookAt'),
     require('./movePlayer'),  
     require('./setPlayerName'), 
