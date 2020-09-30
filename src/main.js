@@ -1,28 +1,18 @@
-const { q, p } = require('./utils');
+const { q, p, s } = require('./utils');
 const GameManager = require('./gameManager');
 const CommandManager = require('./commandManager');
 
 module.exports = async function main() {
     // Initialization
-    let gm = new GameManager();
-    let cm = new CommandManager(gm);
-    
-    process.on('SIGINT', () =>{
-        process.exit();
-    })
+    const gm = new GameManager();
+    const cm = new CommandManager(gm);
 
     // TODO: player onboarding
 
     // TODO: load/save/resume
 
     // Game Intro
-    await q('You\'re in a hotel room. The walls are an ugly shade of green. Press any key to continue.');
-    // await q('Here is some explainer text, press any key to continue').then(() => { 
-    //     console.log('')
-    // });
-
-    p('initial state:');
-    gm.print();
+    await s('You\'re in a hotel room. The walls are an ugly shade of green. Press any key to continue.');
 
     // Game Loop
     while (gm.getCurrentState().running === true) {
@@ -32,6 +22,7 @@ module.exports = async function main() {
 
         await q('What do you do?').then(async (input)=> {
            
+            //TODO: Accept aliases for first character (or characters, if dupes) for commands
             const result = cmds.find(cmd => cmd.verb === input);
             if(result) { 
                 if(result.isAsync) {
@@ -43,9 +34,5 @@ module.exports = async function main() {
                 p("Sorry, I didn't understand that.")
             }
         });
-
-        if(gm.getCurrentState().name) {
-            p('your name is: '+gm.getCurrentState().name)
-        }
     }
 }

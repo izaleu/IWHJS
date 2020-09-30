@@ -1,19 +1,22 @@
+const { R_OK } = require('constants');
 const readline = require('readline');
 
+// TODO: Wrap rl in singleton 
 // TODO: Break out into input utils?
 // TODO: Make commands?
 
 // Question - Use this fn to get some input from the player and do something with it
 // you can leave off the "then" to ignore the input
 // example:
-// q('what?').then(answer => console.log('you said:', answer));
-exports.q = (q) => {
+// q('what?').then(answer => console.log('I said:', answer));
 
+exports.q = (q) => {
     const rl = readline.createInterface({
         input: process.stdin,
         output: process.stdout
     });
-    var response;
+
+    let response;
 
     rl.setPrompt(q + '\n');
     rl.prompt();
@@ -22,18 +25,44 @@ exports.q = (q) => {
         rl.on('line', (userInput) => {
             response = userInput;
             rl.close();
-        });
-
-        rl.on('close', () => {
             resolve(response);
         });
     });
 }
 
-// Print
-// Example:
-// p('Some text!'); >>>> "Some Text!"
-exports.p = (p) => {
-    console.log(p);
+
+// Statement
+// Prints a statement and bails on keypress
+// TODO: optional time delay?
+exports.s = (q) => {
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
+    rl.write(q+"\n");
+
+    return new Promise(async (resolve) => {
+        rl.input.once("keypress", ()=> {
+            var len = rl.line.length;
+            readline.moveCursor(rl.output, -len, 0);
+            readline.clearLine(rl.output, 1);
+            rl.close();
+            resolve('quit');
+        });
+    })
 }
 
+// Print
+// Example:
+// p('Some text!'+foo); >>>> "Some Text! bar"
+exports.p = (...args) => {
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
+    args.forEach(arg => {
+        rl.write(arg+" ")
+    })
+    rl.write('\n')
+    rl.close();
+}
