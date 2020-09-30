@@ -25,7 +25,7 @@ module.exports = class lookAt extends Command {
         });
         p("What do you want to look at?");
         return q("Select an item").then(async input => {
-           const result = items.find(item => item.name === input);
+           const result = items.find(item => item.name.toLowerCase() === input);
            if(result) {
                p("You look at the", result.name+":");
                await s(result.desc);
