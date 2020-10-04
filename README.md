@@ -27,12 +27,14 @@ In the root directory, run the following npm command to build a Windows 10 compa
 
 The output will be in `./build`
 
-## Class Diagram v0.0.1
+## Class Diagrams
 
-Current spec:
+Current spec (v0.0.1b):
 
 ![UML Diagram](./docs/v0.0.1b.png)
 
-Original spec:
+Original spec (v0.0.1):
 
 ![UML Diagram](./docs/v0.0.1.png)
+
+Diagrams authored with [UMLetino](http://www.umlet.com/umletino/umletino.html)
