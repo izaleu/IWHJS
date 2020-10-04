@@ -26,3 +26,8 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm install
     - run: npm run build
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: build-artifact
+        path: build/I_Wasnt_Here.exe
