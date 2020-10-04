@@ -1,102 +1,97 @@
-const { q, p, s, n } = require('./utils');
-const GameManager = require('./gameManager');
-const CommandManager = require('./commandManager');
-const {
-    getString,
-    getItem,
-    getKey,
-    getRoom
-} = require('./dataManager');
+
+class RendererSystem {
+    constructor() {
+        this.components = []
+    }
+    createComponent(entity, data) {
+        const newID = this.components.length;
+        this.components.push(new Renderer(newID, entity, data));
+    }
+    destroyComponent(ID) {
+        throw new Error("Destroy component not implemented");
+    }
+   async update() {
+        //sort components by active state
+        //rendering should happen in a queue?
+        this.components.forEach(async component => {
+           await this.render(component);
+        });
+    }
+
+   async render(component) {
+        if(component.data.isActive) {
+           await console.log(component.data.text);
+            component.data.isActive = false;
+        }
+    }
+}
+
+class Renderer {
+    constructor(ID, entity, data) {
+        this.ID = ID;
+        this.entity = entity;
+        this.data = data
+    }
+    getID() {
+        return this.ID;
+    }
+    getEntity() {
+        return this.entity;
+    }
+    getData() {
+        /*
+        {
+            text: "Hello World",
+            isActive: true
+        }
+        */
+        return this.data;
+    }
+}
+
+class Entity {
+    constructor(ID) {
+        this.ID = ID;
+    }
+    getID() {
+        return this.ID;
+    }
+}
+
+class EntityManager {
+    constructor() {
+        this.entities = [];
+    }
+    createEntity() {
+        const newID = this.entities.length;
+        this.entities.push(new Entity(newID));
+        return this.entities[this.entities.length-1];
+    }
+    destroyEntity() {
+        throw new Error("Destroy entity not implemented");
+    }
+}
 
 module.exports = async function main() {
     // Initialization
-    const gm = new GameManager();
-    const cm = new CommandManager(gm);
-
-    // TODO: player onboarding
-
-    // TODO: load/save/resume
-
-    await s("Hi there! Welcome to the alpha build of I Wasn't Here! Type 'help' for a list of commands. \
-    \n Note: you must match complete words, but they can be case-insensitive. Tab autocompletes.")
 
     // Game Intro
-    await s(getString(getRoom(gm.getCurrentState().playerPos).desc_id));
 
     // Game Loop
-    while (gm.getCurrentState().running === true) {
-        await update(gm, cm);
+    const maxTurns = 3;
+    let currentTurn = 0;
+
+    const entityManager = new EntityManager();
+    const rendererSystem = new RendererSystem();
+
+    rendererSystem.createComponent(entityManager.createEntity(), {text: "Hello World!", isActive: true});
+
+    while (currentTurn < maxTurns) {
+        await update(rendererSystem);
+        currentTurn++;
     }
 }
 
-async function update(gm, cm) {
-    const cmds = cm.getAvailableCommands();
-    const nouns = gm.getAvailableNouns(getRoom);
-    const completions = cmds.map(cmd => cmd.verb);
-
-    await q('What do you do?', completions).then(async (input) => {
-        //TODO: Accept aliases for first character (or characters, if dupes) for commands
-
-        if (isValidInput(input, cmds, nouns)) {
-
-            const inputs = formatRawInput(input);
-            const command = getCommandFromInput(inputs[0], cmds);
-            const commandArgs = inputs.length > 1 ? inputs[1] : null;
-
-            if (command.isAsync) {
-                await cm.dispatchAsync(command, commandArgs);
-            } else {
-                cm.dispatch(command, commandArgs);
-            }
-            n();
-
-        } else {
-            expessConfusion(input);
-        }
-    });
-}
-
-function getCommandFromInput (input, cmds) {
-    return cmds.find(cmd => cmd.verb === input);
-}
-
-function getNounFromInput (input, nouns) {
-    return nouns.find(noun => noun === input)
-}
-
-// Splits, lowercases and replaces spaces in nouns with underscores
-// eg., 'look Overnight Bag' => ['look', 'overnight_bag']
-function formatRawInput (rawInput) {
-    let spaceIndex = rawInput.indexOf(' ');
-    return spaceIndex > -1 ? [
-        rawInput.substring(0, spaceIndex).toLowerCase(),
-        rawInput.substring(spaceIndex + 1).replace(' ', '_').toLowerCase() // TODO: make const cmd separator
-    ] : 
-    [rawInput];
-}
-
- // TODO: noun alias support
-function isValidInput(rawInput, cmds, nouns) {
-    // TODO: check for valid syntax
-    if(!rawInput) return false;
-
-    const inputs = formatRawInput(rawInput);
-
-    switch (inputs.length) {
-        case 1: 
-            const result = getCommandFromInput(inputs[0], cmds);
-            return !!result;
-        case 2:
-            const verbResults = getCommandFromInput(inputs[0], cmds);
-            const nounResults = getNounFromInput(inputs[1], nouns);
-            return !!(verbResults && nounResults);
-        default:
-            return false;
-    }
-}
-
-function expessConfusion(input) {
-    if (input !== '') n();
-    p("Sorry, I didn't understand that.");
-    n();
+async function update(rendererSystem) {
+    await rendererSystem.update();
 }
