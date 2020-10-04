@@ -76,7 +76,7 @@ exports.s = (q) => {
             readline.clearLine(rl.output, 1);
             if(key.name !== 'return') this.n();
             rl.close();
-            resolve('quit');
+            resolve();
         });
     })
 }
