@@ -13,8 +13,9 @@ module.exports = class helpCommand extends Command {
     static execute(currentState) {
         n();
         p('List of commands:');
-        p("- ", 'look');
-        p("- ", 'name');
+        p("- ", 'look <target (optional)>');
+        p("- ", 'name <target (optional)>');
+        p("- ", 'undo');
         p("- ", 'quit');
         n();
         p("Use CTRL-C to quit at any time.");
