@@ -1,5 +1,7 @@
 # IWHJS
-A simple text adventure framework in NodeJS.
+A simple text adventure framework in NodeJS. 
+
+**Note: the main branch of this repo is `main`**
 
 ## Instructions
 
