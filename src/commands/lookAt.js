@@ -1,15 +1,17 @@
 const Command = require('../command');
-const { q, p,s, n } = require('../utils');
+const { q, p, s, n } = require('../utils');
 const {
-    getRoom
+    getItem,
+    getRoom,
+    getString
 } = require('../dataManager');
 
 module.exports = class lookAt extends Command {
-    static get verb () {
+    static get verb() {
         return 'look';
     }
 
-    static get isAsync () {
+    static get isAsync() {
         return true;
     }
 
@@ -17,25 +19,25 @@ module.exports = class lookAt extends Command {
         return true;
     }
 
-    static async execute(currentState, optionalParams) {
+    // Note: If we are given optional args, describe that, else describe the current room
+    static async execute(currentState, commandArgs) {
         n();
-        p("Here's what you see:");
-        const {items} = getRoom(currentState.playerPos)
-        items.forEach(item => {
-            p("* ", item.name);
-        });
-        n();
-        p("What do you want to look at?");
-        return q("Select an item").then(async input => {
-           const result = items.find(item => item.name.toLowerCase() === input);
-           if(result) {
-               n();
-               p("You look at the", result.name+":");
-               await s(result.desc);
-           } else {
-               p("Sorry, I don't know what that is.");
-           }
-           return currentState;
-        })
+        if(commandArgs) {
+            const item = getItem(commandArgs);
+            p(`You look at the ${item.name}...`);
+            await s(item.desc);
+        } else {
+            p('You look around...');
+            //describe the room
+            await s(getString(getRoom(currentState.playerPos).desc_id));
+            //list all the things in the room
+            p("Here's what you see:");
+            const { items } = getRoom(currentState.playerPos);
+            items.forEach(item => {
+                p("* ", getItem(item).name);
+            });
+        }
+
+        return currentState;
     }
 }

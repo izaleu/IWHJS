@@ -1,5 +1,15 @@
 const {commands} = require('./commands');
 
+function getCommandMap(commands) {
+    let map = {};
+
+    commands.forEach(cmd => {
+        map[cmd.verb] = cmd;
+    })
+
+    return map;
+}
+
 module.exports = class CommandManager {
     constructor(gameManager){
         this.gameManager = gameManager;
@@ -10,11 +20,15 @@ module.exports = class CommandManager {
         return this.commands.filter(cmd => cmd.isAvailable(this.gameManager.getCurrentState()));
     }
 
-    dispatch (command) {
-        this.gameManager.applyCommand(command.execute);
+    get commandMap () {
+        return getCommandMap(this.getAvailableCommands());
     }
 
-    async dispatchAsync (command) {
-       await this.gameManager.applyAsyncCommand(command.execute);
+    dispatch (command, commandArgs) {
+        this.gameManager.applyCommand(command.execute, commandArgs);
+    }
+
+    async dispatchAsync (command, commandArgs) {
+       await this.gameManager.applyAsyncCommand(command.execute, commandArgs);
     }
 }

@@ -1,9 +1,11 @@
+
+
 module.exports = class GameManager {
     constructor(){
         this.state = {
             running: true,
-            settings: {},
-            playerInventory: {},
+            settings: {}, // TODO: move to own class?
+            playerInventory: [],
             playerPos: "000"
         } // TODO: replace with GameState class
         this.prevState = null;
@@ -20,16 +22,16 @@ module.exports = class GameManager {
         this.state = newState;
     }
 
-    applyCommand (execute) {
+    applyCommand (execute, commandArgs) {
         const currentState = this.getCurrentState();
-        const newState = execute(currentState);
+        const newState = execute(currentState, commandArgs);
         this.prevState = currentState;
         this.state = newState;
     }
 
-    async applyAsyncCommand (execute) {
+    async applyAsyncCommand (execute, commandArgs) {
         const currentState = this.getCurrentState();
-        await execute(currentState).then(newState => {
+        await execute(currentState, commandArgs).then(newState => {
             this.prevState = currentState;
             this.state = newState;
         });
@@ -40,6 +42,17 @@ module.exports = class GameManager {
             this.state = this.prevState;
             this.prevState = null;
         }
+    }
+
+    // Note: includes playerInventory, current room inventory, and special global nouns (eg., self)
+    getAvailableNouns(getRoom) {
+        const {items, keys} = getRoom(this.state.playerPos);
+        return [
+            'self',
+            ...this.state.playerInventory,
+            ...items,
+            ...keys
+        ]
     }
 
     print () {

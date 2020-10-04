@@ -1,5 +1,7 @@
 // TODO: make this read from CSV and at least pretend to be performant (not loading everything at once)
 
+// Note: This should return immutable data only!!!
+
 const items = require('../data/items.json');
 const keys = require('../data/keys.json');
 const rooms = require('../data/rooms.json');
@@ -15,7 +17,7 @@ function getKey (id) {
     return keys[id];
 }
 function getRoom (id) {
-    return hydrateRoom(rooms[id]);
+    return rooms[id];
 }
 
 function hydrateRoom (room) {
