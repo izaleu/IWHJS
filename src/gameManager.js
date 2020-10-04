@@ -7,17 +7,17 @@ const initialState = {
 };
 
 module.exports = class GameManager {
-    constructor(){
+    constructor() {
         this.history = [initialState]; // TODO: limit max history
     }
 
     getCurrentState(namespace) {
-        if(!namespace) return this.history[this.history.length-1];
-        return this.history[this.history.length-1][namespace];
+        if (!namespace) return this.history[this.history.length - 1];
+        return this.history[this.history.length - 1][namespace];
     }
 
-    applyCommand (command, commandArgs) {
-        if(command.verb === 'undo') {
+    applyCommand(command, commandArgs) {
+        if (command.verb === 'undo') {
             this.undo();
         } else {
             const currentState = this.getCurrentState();
@@ -26,22 +26,22 @@ module.exports = class GameManager {
         }
     }
 
-    async applyAsyncCommand ({execute}, commandArgs) {
+    async applyAsyncCommand({ execute }, commandArgs) {
         const currentState = this.getCurrentState();
         await execute(currentState, commandArgs).then(newState => {
             this.updateHistory(newState);
         });
     }
 
-    updateHistory (state) {
-        if(state !== this.history[this.history.length-1]) {
+    updateHistory(state) {
+        if (state !== this.history[this.history.length - 1]) {
             this.history.push(state);
         }
     }
 
     // TODO: add confirm
-    undo () {
-        if(this.history.length) {
+    undo() {
+        if (this.history.length) {
             this.history.pop();
         }
     }
@@ -49,7 +49,7 @@ module.exports = class GameManager {
     // Note: includes playerInventory, current room inventory, and special global nouns (eg., self)
     getAvailableNouns(getRoom) {
         const state = this.getCurrentState();
-        const {items, keys} = getRoom(state.playerPos);
+        const { items, keys } = getRoom(state.playerPos);
         return [
             'self',
             ...state.playerInventory,
@@ -58,7 +58,7 @@ module.exports = class GameManager {
         ]
     }
 
-    print () {
+    print() {
         console.debug('>>>>>');
         console.debug('history:', this.history);
         console.debug('<<<<<');
