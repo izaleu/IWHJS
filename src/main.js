@@ -18,7 +18,7 @@ module.exports = async function main() {
     // TODO: load/save/resume
 
     await s("Hi there! Welcome to the alpha build of I Wasn't Here! Type 'help' for a list of commands. \
-    \n Note: you must match complete words, but they can be case-insensitive.")
+    \n Note: you must match complete words, but they can be case-insensitive. Tab autocompletes.")
 
     // Game Intro
     await s(getRoom(gm.getCurrentState().playerPos).desc);
