@@ -25,8 +25,14 @@ module.exports = async function main() {
 
     // Game Loop
     while (gm.getCurrentState().running === true) {
-        const cmds = cm.getAvailableCommands();
-        await q('What do you do?').then(async (input) => {
+        await update(gm, cm);
+    }
+}
+
+async function update(gm, cm) {
+    const cmds = cm.getAvailableCommands();
+        const completions = cmds.map(cmd => cmd.verb)
+        await q('What do you do?', completions).then(async (input) => {
             //TODO: Accept aliases for first character (or characters, if dupes) for commands
             const result = cmds.find(cmd => cmd.verb.toLowerCase() === input);
             if (result) {
@@ -42,5 +48,4 @@ module.exports = async function main() {
                 n();
             }
         });
-    }
 }

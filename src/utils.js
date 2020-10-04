@@ -18,10 +18,11 @@ function colorize(color, ...args) {
     return color + args + ResetColor;
 }
 
-exports.q = (q) => {
+exports.q = (q, completerOptions = null) => {
     const rl = readline.createInterface({
         input: process.stdin,
-        output: process.stdout
+        output: process.stdout,
+        completer: completerOptions ? getCompleter(completerOptions) : null
     });
 
     let response;
@@ -38,6 +39,24 @@ exports.q = (q) => {
         });
     });
 }
+
+function getCompleter(options) {
+    const completions = options;
+    // Completer fn
+    return (line) => {
+        let cmds = line.split(' ');
+        const hits = completions.filter((c) => c.startsWith(cmds.slice(-1)));
+    
+        if ((cmds.length > 1) && (hits.length === 1)) {
+            let lastCmd = cmds.slice(-1)[0];
+            let pos = lastCmd.length;
+            rl.line = line.slice(0, -pos).concat(hits[0]);
+            rl.cursor = rl.line.length + 1;
+        }
+    
+        return [hits.length ? hits.sort() : completions.sort(), line];
+    }
+}    
 
 
 // Statement
