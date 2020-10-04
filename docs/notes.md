@@ -22,11 +22,13 @@
 
 ## TODO
 
+ - [ ] Room connections, connection states, lock/unlock, aliases (eg., "north", "green door")
  - [ ] Player movement
  - [ ] Pick up and move objects
  - [ ] Save, load, delete
  - [ ] Read data from CSV
  - [ ] Re-implement everything in Python
+ - [ ] Figure out font sizes
 
 I am interested in trying an ECS approach.
 
