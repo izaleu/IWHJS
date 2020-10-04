@@ -40,3 +40,7 @@ Original spec (v0.0.1):
 ![UML Diagram](./docs/v0.0.1.png)
 
 Diagrams authored with [UMLetino](http://www.umlet.com/umletino/umletino.html)
+
+## Notes
+
+[Additional Notes](./docs/notes.md)
