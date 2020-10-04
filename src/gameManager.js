@@ -41,7 +41,7 @@ module.exports = class GameManager {
 
     // TODO: add confirm
     undo() {
-        if (this.history.length) {
+        if (this.history.length > 1) {
             this.history.pop();
         }
     }
