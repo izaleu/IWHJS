@@ -6,7 +6,7 @@
   "bin": "index.js",
   "scripts": {
     "start": "node index.js",
-    "build": "pkg ./ --targets=node10-win --o ./build/I_Wasn't_Here"
+    "build": "pkg ./ --targets=node10-win --o ./build/I_Wasnt_Here"
   },
   "author": "dread",
   "license": "ISC",
