@@ -1,0 +1,195 @@
+<diagram program="umletino" version="14.3.0"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>10</x><y>1090</y><w>580</w><h>170</h></coordinates><panel_attributes>Parser - Not implemented as Class
+--
++isValid(playerInput: string, availableVerbs: Array&lt;Command&gt;, availableNouns: Array&lt;Noun&gt;): boolean
+
++getCommandFromInput(input: string, cmds: Array&lt;Command&gt;): Command
++getNounFromInput (input: string, nouns: Array&lt;Noun&gt;): Noun
++formatRawInput(rawInput: string): Array&lt;string&gt;
+--
+Notes:
+
+Not its own class yet, these are just living in the main loop</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>10</x><y>1280</y><w>420</w><h>340</h></coordinates><panel_attributes>InputManager - Not Implemented as Class
+--
+-colorize(color: string, args: Array&lt;string&gt;): string
++q(q: string, completerOptions: Array&lt;string&gt;): Promise
++s(q: string): Promise
++p(args: Array&lt;string): void
++n(): void
++getCompleter(options: Array&lt;string&gt;): function
+--
++InputManager(Prompt) : InputManager
++askForPlayerInput() : void
+--
+Notes:
+
+Not its own class yet, these are just living in utils
+
+TODO: change single-letter fn names to full names
+
+q: question with optional auto-complete, waits for user input then resolves 
+result
+s: statement, waits for user input and hides it then resolves
+p: prints a message and inserts a newline
+n: inserts a newline
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1320</x><y>490</y><w>210</w><h>130</h></coordinates><panel_attributes>GameObject
+--
+-id: string
+-name : string
+-desc : string
+--
++getID() : string
++getName() : string
++getDescription() : string
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>550</x><y>820</y><w>380</w><h>180</h></coordinates><panel_attributes>GameState - Not Implemented as Class
+--
+- running: boolean
+- settings: Object
+- playerInventory: Array&lt;string&gt;
+- playerPos: string
+- playerName: string
+--
+
+Note: this needs to be immutable, 
+but unsure of best mechanism to enforce this. Object.freeze() ?</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>10</x><y>820</y><w>440</w><h>260</h></coordinates><panel_attributes>GameManager
+--
+- history : Array&lt;Object&gt;
+--
++GameManager: GameManager
++getCurrentState(namespace: string {optional}): object
++applyAsyncCommand(execute: function, commandArgs: Array&lt;string&gt; {optional}): void
++applyCommand(command: Command, commandArgs: Array&lt;string&gt; {optional}) : void
++updateHistory(state: Object): void
++undo() : void
++getAvailableNouns(getRoom: function): Array&lt;string&gt;
++print() : void
+--
+Notes:
+
+This class manages all the stateful data in the game, there is no 
+way to modify the state outside of applyCommand
+applyAsyncCommand and the special undo Command.
+
+TODO: make private methods private
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1320</x><y>780</y><w>210</w><h>130</h></coordinates><panel_attributes>Player &lt;&lt;Pawn&gt;&gt;
+--
+-Inventory
+-playerName : string
+-commands : List&lt;Command&gt; //quit, help
+--
++getPlayerName() : string
++getInventory() : Inventory
++getCommands(): List&lt;Command&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1080</x><y>490</y><w>210</w><h>110</h></coordinates><panel_attributes>Inventory
+--
+-List&lt;Pickup&gt;
+-maxSize: int // 0 for none
+--
++addPickup() : void
++removePickup() : void
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1320</x><y>630</y><w>210</w><h>130</h></coordinates><panel_attributes>Pawn &lt;&lt;GameObject&gt;&gt;
+--
+-position: string // roomID
+--
++getPosition() : string // roomID
++setPosition() : void
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>440</x><y>500</y><w>490</w><h>290</h></coordinates><panel_attributes>/Command/
+--
+-verb: string
+--
+/+execute(currentState: GameState, commandArguments: Array&lt;string&gt;) : GameState/
+/+verb() : string/
+/+isAvailable() : boolean/
+/+isAsync(): boolean/
+--
+Notes:
+
+isAvailable, isAsync and verb are ES6 getter fns
+
+verb defaults to "_none"
+isAvailable defaults to false
+isAsync defaults to false
+
+TODO: It may not be necessary or beneficial to allow non-async commands</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1080</x><y>920</y><w>430</w><h>250</h></coordinates><panel_attributes>Room &lt;&lt;GameObject&gt;&gt;
+--
+-Inventory
+-connections : List&lt;string&gt; roomIDs
+-dimension: string // or number, I'm not your boss
+--
++onEnter() : void
++onExit () : void
++getCommands(): List&lt;Command&gt;
++getInventory(): Inventory
++addConnection() : void
++removeConnection() : void
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1080</x><y>620</y><w>210</w><h>80</h></coordinates><panel_attributes>Map
+--
+-rooms: List&lt;Room&gt; // could also be a dictionary by ID
+--
++getRooms() : List&lt;Room&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1080</x><y>720</y><w>210</w><h>80</h></coordinates><panel_attributes>Pickup &lt;&lt;Pawn&gt;&gt;
+--
+- commands : List&lt;Command&gt;
+--
++getCommands() : List&lt;Command&gt;
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>10</x><y>500</y><w>420</w><h>290</h></coordinates><panel_attributes>CommandManager
+--
+-gameManager : GameManager
+-commands: Array&lt;Command&gt;
+--
++CommandManager(gameManager: GameManager): CommandManager
++getAvailableCommands(): Array&lt;Command&gt;
++commandMap(): Object
++dispatch(command: Command, commandArgs: Array&lt;string&gt;): void
++dispatchAsync(command: Command, commandArgs: Array&lt;string&gt;): void
+--
+Notes:
+
+CommandManager is stateless after initialization.
+
+Pretty sure non-async dispatch is unnecessary, as is commandMap.
+
+commands is a list of all commands in the game.
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Text</id><coordinates><x>60</x><y>370</y><w>100</w><h>70</h></coordinates><panel_attributes>IWH v0.0.1b</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1080</x><y>810</y><w>210</w><h>90</h></coordinates><panel_attributes>NPC &lt;&lt;Pawn&gt;&gt;
+--
+-Inventory
+-playerName : string
+-commands : List&lt;Command&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1070</x><y>460</y><w>530</w><h>740</h></coordinates><panel_attributes>Not Implemented
+bg=red</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>650</x><y>1120</y><w>350</w><h>450</h></coordinates><panel_attributes>bg=yellow
+
+Notes:
+
+Original design is pretty object-oriented, current iteration is 
+highly simplified, not sure how I'll manage more complex
+interactions such as moving objects around on the map, 
+dealing with doors and keys. I should probably start migrating
+back towards the original design now that I have a working
+prototype. OTOH, I am tempted to try an ECS architecture
+instead. 
+
+I think the most complex aspect of this system will be 
+determining which commands are available at any given time.
+
+The second most challenging part I suspect will be keeping the
+entire game state serializable. Currently GameManager is 
+retaining a snapshot for every successfully executed functional 
+Command (IE., any Command that successfully mutates game
+state). This will probably stop being sustainable in the event the
+game state grows sufficiently large and/or a single game session
+runs continuously for a long time. 
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>200</x><y>780</y><w>30</w><h>60</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;40</additional_attributes></element><element><id>UMLPackage</id><coordinates><x>440</x><y>230</y><w>490</w><h>150</h></coordinates><panel_attributes>bg=gray
+fg=red
+commands
+--
+
++help
++lookAt
++movePlayer
++setPlayerName
++quit
++undo
+--
+
+Note: includes all concrete Command classes defined in src/commands/
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>690</x><y>370</y><w>50</w><h>80</h></coordinates><panel_attributes>lt=&lt;.
+
+0..N</panel_attributes><additional_attributes>10;10;10;60</additional_attributes></element><element><id>UMLClass</id><coordinates><x>630</x><y>430</y><w>120</w><h>30</h></coordinates><panel_attributes>concrete Command</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>690</x><y>450</y><w>30</w><h>70</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;50</additional_attributes></element><element><id>Relation</id><coordinates><x>200</x><y>300</y><w>260</w><h>220</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;200;240;10</additional_attributes></element><element><id>Relation</id><coordinates><x>440</x><y>840</y><w>130</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>110;10;10;10</additional_attributes></element></diagram>

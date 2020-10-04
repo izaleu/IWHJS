@@ -29,6 +29,10 @@ The output will be in `./build`
 
 ## Class Diagram v0.0.1
 
-This diagram is aspirational and does not reflect the current state of the code.
+Current spec:
+
+![UML Diagram](./docs/v0.0.1b.png)
+
+Original spec:
 
 ![UML Diagram](./docs/v0.0.1.png)
