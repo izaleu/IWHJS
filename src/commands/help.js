@@ -6,11 +6,11 @@ module.exports = class helpCommand extends Command {
         return 'help'
     }
 
-    static isAvailable(currentState) {
+    static isAvailable() {
         return true
     }
 
-    static execute(currentState, optionalParams) {
+    static execute(currentState) {
         n();
         p('List of commands:');
         p("- ", 'look');

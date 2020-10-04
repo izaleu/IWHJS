@@ -23,9 +23,15 @@ module.exports = class lookAt extends Command {
     static async execute(currentState, commandArgs) {
         n();
         if(commandArgs) {
-            const item = getItem(commandArgs);
-            p(`You look at the ${item.name}...`);
-            await s(item.desc);
+
+            if(commandArgs === 'self') {
+                p(`You look at yourself... your nametag says \"${currentState.playerName}\"`);
+
+            } else {
+                const item = getItem(commandArgs);
+                p(`You look at the ${item.name}...`);
+                await s(item.desc);
+            }
         } else {
             p('You look around...');
             //describe the room

@@ -1,4 +1,4 @@
-const {commands} = require('./commands');
+const { commands } = require('./commands');
 
 function getCommandMap(commands) {
     let map = {};
@@ -11,24 +11,24 @@ function getCommandMap(commands) {
 }
 
 module.exports = class CommandManager {
-    constructor(gameManager){
+    constructor(gameManager) {
         this.gameManager = gameManager;
         this.commands = commands;
     }
 
-    getAvailableCommands () {
+    getAvailableCommands() {
         return this.commands.filter(cmd => cmd.isAvailable(this.gameManager.getCurrentState()));
     }
 
-    get commandMap () {
+    get commandMap() {
         return getCommandMap(this.getAvailableCommands());
     }
 
-    dispatch (command, commandArgs) {
-        this.gameManager.applyCommand(command.execute, commandArgs);
+    dispatch(command, commandArgs) {
+        this.gameManager.applyCommand(command, commandArgs);
     }
 
-    async dispatchAsync (command, commandArgs) {
-       await this.gameManager.applyAsyncCommand(command.execute, commandArgs);
+    async dispatchAsync(command, commandArgs) {
+        await this.gameManager.applyAsyncCommand(command, commandArgs);
     }
 }

@@ -1,4 +1,5 @@
 exports.commands = [
+    require('./undo'),
     require('./help'),
     require('./lookAt'),
     require('./movePlayer'),  
