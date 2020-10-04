@@ -1,0 +1,154 @@
+<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>81</x><y>0</y><w>350</w><h>480</h></coordinates><panel_attributes>Entry (main.js)
+--
+entities: Array&lt;Entity&gt;
+entityManager: EntityManager
+
+systems: Array&lt;Systems&gt;
+--
+initialize(): void
+update(): void 
+--
+Notes:
+
+* render explainer/intro text, then kick off main loop
+
+update is main game loop
+
+* ask for user input
+* process input
+* either express confusion or dispatch command
+* update game state (or not, for stateless actions)
+* repeat
+
+--
+
+initialize systems
+create an Entity (id = 0)
+create a Renderer Component on the entity we just made, with intro/explainer text "press foo to continue"
+
+Renderer System updates, printing text to console, then marks component  as read?
+create an entity with a UserInput Component
+User Input is marked as unresolved to start
+User Input system updates, prompts user for input, blocks thread
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>451</x><y>0</y><w>120</w><h>130</h></coordinates><panel_attributes>Entity
+--
+ID: int
+--
+Entity(ID: int): Entity
+~Entity(): void
+getId(): string
+--
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>581</x><y>0</y><w>350</w><h>220</h></coordinates><panel_attributes>/Component/
+--
+id: string
+entity: Entity
+type: string // class name?
+data: Object // ?
+--
+Component(data: Object {optional}) : Component
+~Component(): void
+getID(): string
+getEntity(): Entity
+getData(): Object
+getType(): string
+sendMessage(message: string): void
+isActive: boolean
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>581</x><y>230</y><w>350</w><h>140</h></coordinates><panel_attributes>/System/
+--
+components: Array&lt;Components&gt;
+--
+-init(): void
+-sortComponents(): void
++async update(components: Array&lt;Component&gt;): void
++createComponent(entity: Entity, data: Object {optional}): void 
++destroyComponent(componentID: string): void
+--
+Notes: //passed in all components of this type... </panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>81</x><y>500</y><w>350</w><h>270</h></coordinates><panel_attributes>EntityManager
+--
+entities: Array&lt;Entity&gt;
+getEntityByID(id: string): Entity
+
+createEntity(): Entity
+destroyEntity(id: string): void
+--
+Notes:
+ create and destroy are shorthand for creating and destroying
+ a bunch of components at once?
+
+createEntity() {
+    this.entities.push(new Entity(this.entities.length))
+
+    return this.entities[this.entities.length-1]
+}</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>449</x><y>440</y><w>350</w><h>230</h></coordinates><panel_attributes>&lt;&lt;System&gt;&gt;
+UserInputSystem
+--
+components: Array&lt;UserInput&gt; //only one!
+--
+-init(): void
+-sortComponents(): void
++update(components: Array&lt;UserInput&gt;): void
++addComponent(data: Object {optional}): void 
++destroyComponent(entityID: string): void
+
+--
+
+update(components) {
+//delete all components with no entity id
+    components.forEach(comp=&gt; {
+        comp.update()
+    });
+}</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>819</x><y>440</y><w>350</w><h>230</h></coordinates><panel_attributes>&lt;&lt;Component&gt;&gt;
+UserInput
+--
+id: string
+entity: Entity
+type: UserInput
+data: {
+    resolved: false
+    value: null
+}
+--
+Component(data: Object {optional}) : Component
+~Component(): void
+getID(): string
+getEntity(): Entity
+getData(): Object
+getType(): string
+sendMessage(message: string): void
+isActive: boolean
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>448</x><y>682</y><w>350</w><h>230</h></coordinates><panel_attributes>&lt;&lt;System&gt;&gt;
+RenderSystem
+--
+components: Array&lt;Renderer&gt; 
+--
+-init(): void
+-sortComponents(): void
++update(components: Array&lt;Renderer&gt;): void
++createComponent(entity: Entity, data: Object {optional}): void 
++destroyComponent(componentID: string): void
+--
+
+update(components) {
+//delete all components with no entity id
+    components.forEach(comp=&gt; {
+        comp.update()
+    });
+}</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>818</x><y>686</y><w>350</w><h>290</h></coordinates><panel_attributes>&lt;&lt;Component&gt;&gt;
+Renderer
+--
+id: string
+entity: Entity
+type: UserInput
+data: {
+unread: true
+}
+--
+Component(data: Object {optional}) : Component
+~Component(): void
+getID(): string
+getEntity(): Entity
+getData(): Object
+getType(): string
+sendMessage(message: string): void
+isActive: boolean
+</panel_attributes><additional_attributes></additional_attributes></element></diagram>
