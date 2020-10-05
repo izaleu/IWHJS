@@ -1,4 +1,4 @@
-<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>81</x><y>0</y><w>350</w><h>480</h></coordinates><panel_attributes>Entry (main.js)
+<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>42</x><y>0</y><w>350</w><h>480</h></coordinates><panel_attributes>Entry (main.js)
 --
 entities: Array&lt;Entity&gt;
 entityManager: EntityManager
@@ -30,7 +30,7 @@ Renderer System updates, printing text to console, then marks component  as read
 create an entity with a UserInput Component
 User Input is marked as unresolved to start
 User Input system updates, prompts user for input, blocks thread
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>451</x><y>0</y><w>120</w><h>130</h></coordinates><panel_attributes>Entity
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>412</x><y>0</y><w>120</w><h>130</h></coordinates><panel_attributes>Entity
 --
 ID: int
 --
@@ -38,7 +38,7 @@ Entity(ID: int): Entity
 ~Entity(): void
 getId(): string
 --
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>581</x><y>0</y><w>350</w><h>220</h></coordinates><panel_attributes>/Component/
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>542</x><y>0</y><w>350</w><h>220</h></coordinates><panel_attributes>/Component/
 --
 id: string
 entity: Entity
@@ -53,7 +53,7 @@ getData(): Object
 getType(): string
 sendMessage(message: string): void
 isActive: boolean
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>581</x><y>230</y><w>350</w><h>140</h></coordinates><panel_attributes>/System/
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>542</x><y>230</y><w>350</w><h>140</h></coordinates><panel_attributes>/System/
 --
 components: Array&lt;Components&gt;
 --
@@ -63,7 +63,7 @@ components: Array&lt;Components&gt;
 +createComponent(entity: Entity, data: Object {optional}): void 
 +destroyComponent(componentID: string): void
 --
-Notes: //passed in all components of this type... </panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>81</x><y>500</y><w>350</w><h>270</h></coordinates><panel_attributes>EntityManager
+Notes: //passed in all components of this type... </panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>42</x><y>500</y><w>350</w><h>270</h></coordinates><panel_attributes>EntityManager
 --
 entities: Array&lt;Entity&gt;
 getEntityByID(id: string): Entity
@@ -79,7 +79,7 @@ createEntity() {
     this.entities.push(new Entity(this.entities.length))
 
     return this.entities[this.entities.length-1]
-}</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>449</x><y>440</y><w>350</w><h>230</h></coordinates><panel_attributes>&lt;&lt;System&gt;&gt;
+}</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>410</x><y>440</y><w>350</w><h>230</h></coordinates><panel_attributes>&lt;&lt;System&gt;&gt;
 UserInputSystem
 --
 components: Array&lt;UserInput&gt; //only one!
@@ -97,7 +97,7 @@ update(components) {
     components.forEach(comp=&gt; {
         comp.update()
     });
-}</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>819</x><y>440</y><w>350</w><h>230</h></coordinates><panel_attributes>&lt;&lt;Component&gt;&gt;
+}</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>780</x><y>440</y><w>350</w><h>230</h></coordinates><panel_attributes>&lt;&lt;Component&gt;&gt;
 UserInput
 --
 id: string
@@ -116,7 +116,7 @@ getData(): Object
 getType(): string
 sendMessage(message: string): void
 isActive: boolean
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>448</x><y>682</y><w>350</w><h>230</h></coordinates><panel_attributes>&lt;&lt;System&gt;&gt;
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>409</x><y>682</y><w>350</w><h>230</h></coordinates><panel_attributes>&lt;&lt;System&gt;&gt;
 RenderSystem
 --
 components: Array&lt;Renderer&gt; 
@@ -133,7 +133,7 @@ update(components) {
     components.forEach(comp=&gt; {
         comp.update()
     });
-}</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>818</x><y>686</y><w>350</w><h>290</h></coordinates><panel_attributes>&lt;&lt;Component&gt;&gt;
+}</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>779</x><y>686</y><w>350</w><h>290</h></coordinates><panel_attributes>&lt;&lt;Component&gt;&gt;
 Renderer
 --
 id: string
@@ -151,4 +151,16 @@ getData(): Object
 getType(): string
 sendMessage(message: string): void
 isActive: boolean
-</panel_attributes><additional_attributes></additional_attributes></element></diagram>
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>41</x><y>790</y><w>350</w><h>240</h></coordinates><panel_attributes>bg=yellow
+Messaging
+
+How do entities communicate?
+How do components communicate?
+How do components communicate across types?
+
+component data *is the state*
+
+systems pass actions to their components' reducers to calc new state?
+
+
+action =&gt; reducer =&gt; state =&gt; view =&gt; ready for action</panel_attributes><additional_attributes></additional_attributes></element></diagram>

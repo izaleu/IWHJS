@@ -1,8 +1,10 @@
 const readline = require('readline');
 
+//WARNING: A class with dispatch AND reducers can infinite loop!
 class RendererSystem {
     constructor() {
         this.components = []
+        this.reducer = this.reducer.bind(this);
     }
     createComponent(entity, data) {
         const newID = this.components.length;
@@ -11,6 +13,22 @@ class RendererSystem {
     destroyComponent(ID) {
         throw new Error("Destroy component not implemented");
     }
+
+    getComponents() {
+        return this.components;
+    }
+    
+    // Not really a reducer :/
+    reducer (action) {
+        // apply action to all components
+        if(action.type === 'user_input') {
+            this.components.forEach(component => {
+                component.data.text = action.payload.text;
+                component.data.isActive = true;
+            })
+        }
+    }
+
     async update() {
         //sort components by active state
         //rendering should happen in a queue?
@@ -21,7 +39,7 @@ class RendererSystem {
 
     async render(component) {
         if (component.data.isActive) {
-            await console.log(component.data.text);
+            await console.log('rendering',component.data.text);
             component.data.isActive = false;
         }
     }
@@ -96,9 +114,11 @@ function question(completerOptions = null) {
 }
 
 class InputSystem {
-    constructor() {
-        this.components = []
+    constructor(dispatcher) {
+        this.components = [];
+        this.dispatcher = dispatcher;
     }
+
     createComponent(entity, data) {
         const newID = this.components.length;
         this.components.push(new Input(newID, entity, data));
@@ -114,13 +134,18 @@ class InputSystem {
         }))
     }
 
+    getComponents() {
+        return this.components;
+    }
+
     async getUserInput(component) {
         if (component.data.isActive) {
             component.data.isActive = false;
             //what do we do with the input?
             return question().then(result => {
-                console.log("Finished entering text", result);
+                //console.log("Finished entering text", result);
                 //dispatch event
+                this.dispatcher.dispatch({type: 'user_input', payload: {origin: component, text: result}});
             });
         }
     }
@@ -152,12 +177,33 @@ class Input {
     }
 }
 
+class Dispatcher {
+    constructor (){
+        this.listeners = [];
+    }
+    dispatch (message) {
+        this.listeners.forEach(listener => {
+            listener(message);
+        });
+    }
+    addListener (listener) {
+        this.listeners.push(listener);
+    }
+    removeListener (targetListener) {
+        this.listeners = this.listeners.filter(listener => listener === targetListener);
+    }
+}
+
 module.exports = async function main() {
     // Initialization
     const entityManager = new EntityManager();
+    const dispatcher = new Dispatcher();
 
     const rendererSystem = new RendererSystem();
-    const inputSystem = new InputSystem();
+    const inputSystem = new InputSystem(dispatcher);
+
+    dispatcher.addListener(rendererSystem.reducer);
+
     // Game Intro
 
     // Game Loop
