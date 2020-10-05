@@ -20,20 +20,28 @@ module.exports = async function main() {
     let currentTurn = 0;
 
     // Game Intro
-    renderSystem.createComponent(entityManager.createEntity(), { text: "Welcome to the framework!", isActive: true });
-    inputSystem.createComponent(entityManager.createEntity(), { isActive: true });
 
-    // Game loop
+    // Note: self-destroying components
+    renderSystem.createComponent(entityManager.createEntity(), { text: "Hello world!", once: true});
+    inputSystem.createComponent(entityManager.createEntity(), {inputType: 'acknowledge'});
+
+    await renderSystem.update();
+    await inputSystem.update();
+    //End Intro
+
+    // Set up main loop
+    renderSystem.createComponent(entityManager.createEntity(), { text: "What do you do?"});
+    inputSystem.createComponent(entityManager.createEntity(), {inputType: 'question'});
+
+    const systems = [renderSystem, inputSystem];
+    
+    // Main game loop
     while (currentTurn < maxTurns) {
-        console.log("current turn", currentTurn)
+        console.debug("Turn #"+(currentTurn+1));
 
-        await update(renderSystem);
-        await update(inputSystem);
-        // what things deserve to be components? What things deserve to be systems?
+        await Promise.all(systems.map(async sys => await sys.update()));
+
+        entityManager.update(systems);
         currentTurn++;
     }
-}
-
-async function update(system) {
-    await system.update();
 }

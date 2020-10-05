@@ -13,11 +13,10 @@ module.exports = class Input {
     getData() {
         /*
         {
+            input_type: string // one of: question, statement
             options: {
-                anyKeyContinue: boolean
                 completions: Array<string>
             }
-            isActive: true
         }
         */
         return this.data;

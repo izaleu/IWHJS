@@ -14,7 +14,7 @@ module.exports = class Renderer {
         /*
         {
             text: "Hello World",
-            isActive: true
+            once: false
         }
         */
         return this.data;
