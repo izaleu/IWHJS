@@ -1,6 +1,5 @@
 const EntityManager = require('./EntityManager');
 const Dispatcher = require('./Dispatcher');
-const render = require('./render');
 const CommandSystem = require('./command').system;
 
 const RenderSystem = require('./render').system;
@@ -50,8 +49,12 @@ module.exports = async function main() {
         await renderSystem.update();
         await inputSystem.update();
         await commandSystem.update();
-        currentTurn++;
-        //update all other systems
+
+        // update all other systems
+
+        // clean up entities
         entityManager.update([renderSystem, inputSystem, commandSystem]);
+
+        currentTurn++;
     }
 }
