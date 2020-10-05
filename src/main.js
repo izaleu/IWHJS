@@ -1,5 +1,7 @@
 const EntityManager = require('./EntityManager');
 const Dispatcher = require('./Dispatcher');
+const render = require('./render');
+const CommandSystem = require('./command').system;
 
 const RenderSystem = require('./render').system;
 const InputSystem = require('./input').system;
@@ -12,36 +14,44 @@ module.exports = async function main() {
 
     const renderSystem = new RenderSystem();
     const inputSystem = new InputSystem(dispatcher);
+    const commandSystem = new CommandSystem(dispatcher);
 
     dispatcher.addListener(renderSystem.reducer);
+    dispatcher.addListener(commandSystem.reducer);
 
-    // Game Loop safeguard
-    const maxTurns = 3;
-    let currentTurn = 0;
 
     // Game Intro
-
+    // TODO: replace with scripted layer
     // Note: self-destroying components
-    renderSystem.createComponent(entityManager.createEntity(), { text: "Hello world!", once: true});
-    inputSystem.createComponent(entityManager.createEntity(), {inputType: 'acknowledge'});
+    renderSystem.createComponent(entityManager.createEntity(), { text: "Hello world!", once: true });
+    inputSystem.createComponent(entityManager.createEntity(), { inputType: 'acknowledge' });
 
+    // Manual update
     await renderSystem.update();
     await inputSystem.update();
     //End Intro
 
     // Set up main loop
-    renderSystem.createComponent(entityManager.createEntity(), { text: "What do you do?"});
-    inputSystem.createComponent(entityManager.createEntity(), {inputType: 'question'});
+    // Note: persistent components
+    //create system/static entity
+    const systemEntity = entityManager.createEntity();
 
-    const systems = [renderSystem, inputSystem];
-    
+    renderSystem.createComponent(systemEntity, { text: "What do you do?" });
+    inputSystem.createComponent(systemEntity, { inputType: 'question' });
+    commandSystem.createComponent(systemEntity);
+
+    // Game Loop safeguard
+    const maxTurns = 3;
+    let currentTurn = 0;
+
     // Main game loop
     while (currentTurn < maxTurns) {
-        console.debug("Turn #"+(currentTurn+1));
 
-        await Promise.all(systems.map(async sys => await sys.update()));
-
-        entityManager.update(systems);
+        await renderSystem.update();
+        await inputSystem.update();
+        await commandSystem.update();
         currentTurn++;
+        //update all other systems
+        entityManager.update([renderSystem, inputSystem, commandSystem]);
     }
 }

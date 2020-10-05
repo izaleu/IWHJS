@@ -24,7 +24,7 @@ module.exports = class RendererSystem {
     // Not really a reducer :/
     reducer(action) {
         // apply action to all components
-        if (action.type === 'update_render_text') {
+        if (action.type === 'render') {
             this.components.forEach(component => {
                 component.data.text = action.payload.text;
             })

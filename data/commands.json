@@ -1,0 +1,16 @@
+{
+    "look": {
+        "aliases": "see",
+        "arguments": true
+    },
+    "help": {
+        "aliases": "?",
+        "arguments": false
+    },
+    "quit": {
+        "arguments": false
+    },
+    "move": {
+        "arguments": true
+    }
+}
