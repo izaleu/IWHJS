@@ -3,7 +3,7 @@
 
 // Note: flat object of rooms, keys are room ids
 // this represents the initial game state
-const rooms = require('../data/rooms.json');
+const rooms = require('../../data/rooms.json');
 
 /*
 Room schema

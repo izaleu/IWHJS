@@ -1,5 +1,5 @@
-const Command = require('../command');
-const { p, n } = require('../utils');
+const Command = require('./command');
+const { p, n } = require('./utils');
 
 module.exports = class undoCommand extends Command {
     static get verb() {
