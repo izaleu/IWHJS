@@ -15,15 +15,15 @@ module.exports = async function main() {
 
     dispatcher.addListener(renderSystem.reducer);
 
-    // Game Intro
-    renderSystem.createComponent(entityManager.createEntity(), { text: "Welcome to the framework!", isActive: true });
-
-    // Game Loop
+    // Game Loop safeguard
     const maxTurns = 3;
     let currentTurn = 0;
 
+    // Game Intro
+    renderSystem.createComponent(entityManager.createEntity(), { text: "Welcome to the framework!", isActive: true });
     inputSystem.createComponent(entityManager.createEntity(), { isActive: true });
 
+    // Game loop
     while (currentTurn < maxTurns) {
         console.log("current turn", currentTurn)
 
